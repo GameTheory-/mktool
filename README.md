@@ -5,7 +5,7 @@ mktool v1.0
 mktool is for unpacking & repacking android boot, recovery, or lok images and also for loki patching.
 
 Note:
-	mktool has been tested on [ubuntu](http://en.wikipedia.org/wiki/Ubuntu_(operating_system)) linux.
+	mktool has been tested on ubuntu linux.
 	should work on most debian based linux distros.
 ~~~~
 

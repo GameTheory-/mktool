@@ -1,6 +1,6 @@
 # Description
 ~~~~
-mktool v2.0
+mktool v2.1
 
 mktool is for unpacking & repacking the android boot,
 recovery, or lok images and also for loki patching.

@@ -1,30 +1,21 @@
-# Description
-~~~~
-mktool v2.1
-
-mktool is for unpacking & repacking the android boot,
-recovery, or lok images and also for loki patching.
-
-Note:
-	mktool has been tested on ubuntu linux.
-	should work on most debian based linux distros.
-~~~~
-
-# Usage
-~~~~
-1. Place your image file in the mktool root directory.
-2. Open terminal to the mktool root directory and run
-the following command:
-
-$ ./mktool
-~~~~
-
+## mktool v3.0
 ![image](tools/menu.png)
 
-# mktool Author
-- [GameTheory](https://github.com/GameTheory-)
+mktool is for unpacking & repacking the android boot,
+recovery, or loki images and also for loki patching.
 
+**Tested on ubuntu 12.04 to 16.04**
 
-**Resources:**
-- [mkbootimg](https://github.com/GameTheory-/mkbootimg)
-- [loki](https://github.com/GameTheory-/loki)
+**Project page:**
+https://intechgeek.com/mktool/
+
+## Usage
+Make sure the "mktool" file has execute permissions.
+
+1. Place your images in the input folder.
+2. Execute the mktool file as follows in terminal: `./mktool`
+3. optional - Use the "Add Desktop Shortcut" option for quick access
+
+### Resources
+- [mkbootimg](https://github.com/osm0sis/mkbootimg)
+- [loki](https://github.com/djrbliss/loki)

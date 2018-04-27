@@ -1,0 +1,10 @@
+# Do not track
+
+extracted/
+misc/
+output/
+*.img
+*.lok
+.config_file
+t
+x

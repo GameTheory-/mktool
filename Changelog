@@ -1,3 +1,6 @@
+##### April 30 2019 v3.3
+- detection for lzma ramdisk compression
+
 ##### April 29 2019 v3.2
 - update for boot_img_hdr_v2
 

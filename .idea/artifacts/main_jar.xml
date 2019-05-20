@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="main:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/main_jar</output-path>
+    <root id="archive" name="mktool.jar">
+      <element id="module-output" name="main" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../java_tools/commons-compress-1.18.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../java_tools/JTattoo-1.6.11.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../java_tools/jarchivelib-0.7.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../java_tools/commons-io-2.6.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

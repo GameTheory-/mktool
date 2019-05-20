@@ -1,3 +1,6 @@
+##### May 20 2019 v4.0
+- re-written in java for a proper GUI
+
 ##### April 30 2019 v3.3
 - detection for lzma ramdisk compression
 

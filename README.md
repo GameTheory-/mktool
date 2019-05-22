@@ -19,5 +19,6 @@ Must have java 8 or higher.
 
 ### Resources
 
+- [Apache Commons IO Library](https://mvnrepository.com/artifact/commons-io/commons-io)
 - [mkbootimg](https://github.com/osm0sis/mkbootimg)
 - [loki](https://github.com/djrbliss/loki)

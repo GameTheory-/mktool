@@ -4,6 +4,8 @@ misc/
 output/
 *.img
 *.lok
+*.zip
+Instructions
 .config_file
 t
 x

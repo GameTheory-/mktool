@@ -1,4 +1,4 @@
-# mktool v4.0
+# mktool v4.1
 
 ![image](tools/menu.png)
 
@@ -9,9 +9,9 @@ Tested on ubuntu & xubuntu.
 
 Must have java 8 or higher.
 
-## Project page
+### Project page
 
-<https://intechgeek.com/mktool/>
+<https://techstop.github.io/mktool/>
 
 ### Latest download
 

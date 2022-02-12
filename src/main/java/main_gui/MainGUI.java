@@ -24,7 +24,7 @@ import static java.nio.file.StandardWatchEventKinds.*;
 @SuppressWarnings("Convert2Lambda")
 public class MainGUI {
   @SuppressWarnings("FieldCanBeLocal")
-  private final String appVersion = "mktool v5.0";
+  private final String appVersion = "mktool v5.1";
   private final String fs = File.separator;
   private final String input = UnpackRepackUtil.getDir() + fs + "input";
   private final String aboot = input + fs + "aboot";

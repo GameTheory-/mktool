@@ -369,25 +369,21 @@ public class UnpackRepackUtil {
       .getCodeSource().getLocation().getPath()).getName();
     String launcher = System.getProperty("user.home") +
       "/.local/share/applications/mktool.desktop";
+    String which_java = Shell.exec0("echo -n $(which java)");
     if (param.contains("create")) {
       String[] cl = {
         "echo '[Desktop Entry]' > " + launcher,
         "echo 'Type=Application' >> " + launcher,
         "echo 'Name=mktool' >> " + launcher,
         "echo 'Comment=Boot & Recovery image tool' >> " + launcher,
-        "echo 'Exec=java -jar \"" + getDir() + fs + appName + "\"' >> " + launcher,
+        "echo 'Exec=" + which_java + " -jar \"" + getDir() + fs + appName + "\"' >> " + launcher,
         "echo 'Icon=" + icon + "' >> " + launcher,
         "echo 'Categories=Development;' >> " + launcher,
-        "echo 'Terminal=false' >> " + launcher,
-        "gtk-update-icon-cache /usr/share/icons/*"
+        "echo 'Terminal=false' >> " + launcher
       };
       Shell.exec1(cl);
     } else if (param.contains("remove")) {
-      File file = new File(launcher);
-      if (file.exists()) {
-        String[] rml = {"rm -f " + launcher, "gtk-update-icon-cache /usr/share/icons/hicolor"};
-        Shell.exec1(rml);
-      }
+      Shell.exec1("rm -f " + launcher);
     }
   }
 

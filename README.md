@@ -1,13 +1,12 @@
-# mktool v5.0
+# mktool v5.1
 
 ![image](tools/menu.png)
 
 mktool is for unpacking & repacking the android boot,
 recovery, or loki images and also for loki patching.
 
-<span style="color:red">Made for use on Linux.</span>
-
-<span style="color:red">Must have java 8 or higher.</span>
+- Made for use on Linux.
+- Must have java 8 or higher.
 
 ### Usage
 In a terminal run the following command:

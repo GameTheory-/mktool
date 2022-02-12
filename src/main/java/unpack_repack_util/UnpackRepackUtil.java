@@ -16,12 +16,13 @@ import java.util.Arrays;
 public class UnpackRepackUtil {
   private static final String fs = File.separator;
   private static final String tool = getDir() + fs + "tools" + fs + "unpackbootimg -i ";
+  //private static final String cpio = getDir() + fs + "tools" + fs + "cpio";
   private static final String input = getDir() + fs + "input";
   private static final String aboot = input + fs + "aboot";
   private static final String output = getDir() + fs + "output";
   private static final String extracted = getDir() + fs + "extracted";
   private static final String configs = extracted + fs + "configs";
-  private static final String ramdisk = extracted + fs + "ramdisk";
+  //private static final String ramdisk = extracted + fs + "ramdisk";
   private static final String img_info = getDir() + fs + "img_info";
 
   public static String imgInfo(String listItem) {
@@ -39,30 +40,48 @@ public class UnpackRepackUtil {
   public static String startUnpack(String listItem) {
     manageDIR();
     String console = Shell.exec0(tool + input + fs + listItem + " -o " + configs);
-    String inputGZ = configs + fs + arrayToString(getFiles(configs, ".gz", "?"));
-    if (Shell.exec0("file " + inputGZ).toLowerCase().contains("lzma")) {
-      String gz_file = inputGZ;
-      Shell.exec1("mv -f " + gz_file + " " + gz_file + ".xz");
-      gz_file = gz_file + "*.xz";
-      Shell.exec1("lzma -d " + gz_file);
-      gz_file = configs + fs + arrayToString(getFiles(configs, ".gz", "?"));
-      Shell.exec1("mv -f " + gz_file + " " + gz_file + ".cpio");
-      gz_file = gz_file + ".cpio";
-      String[] cmds = {
-        "( cd " + ramdisk + " && cpio -i 2>/dev/null < " + gz_file + " )",
-        "rm -f " + gz_file,
-        "mv -f " + configs + fs + "*zImage " + extracted,
-        "echo 'true' > " + configs + fs + "lzma"
-      };
-      Shell.exec1(cmds);
+    String ramDisks;
+    String ramdisk = getFile(configs, "img-ramdisk");
+    String vramdisk = getFile(configs, "img-vendor_ramdisk");
+    if (vramdisk.contains("img-vendor_ramdisk")) {
+      ramDisks = vramdisk;
     } else {
-      String[] cmds = {
-        "gunzip -c " + inputGZ + " | ( cd " + ramdisk + "; cpio -i 2>/dev/null )",
-        "rm -f " + inputGZ,
-        "mv -f " + configs + fs + "*zImage " + extracted
-      };
-      Shell.exec1(cmds);
+      ramDisks = ramdisk;
     }
+//    String ramdisks = configs + fs + arrayToString(getFiles(configs, ".img-ramdisk", "?"));
+//    File ramDisks = new File(ramdisks);
+//    String inputGZ;
+//    if (ramDisks.exists()) {
+//      inputGZ = configs + fs + arrayToString(getFiles(configs, ".img-ramdisk", "?"));
+//    } else {
+//      inputGZ = configs + fs + arrayToString(getFiles(configs, ".img-vendor_ramdisk", "?"));
+//    }
+//    if (Shell.exec0("file " + inputGZ).toLowerCase().contains("lzma")) {
+//      String gz_file = inputGZ;
+//      Shell.exec1("mv -f " + gz_file + " " + gz_file + ".xz");
+//      gz_file = gz_file + "*.xz";
+//      Shell.exec1("lzma -d " + gz_file);
+//      gz_file = configs + fs + arrayToString(getFiles(configs, ".gz", "?"));
+//      Shell.exec1("mv -f " + gz_file + " " + gz_file + ".cpio");
+//      gz_file = gz_file + ".cpio";
+//      String[] cmds = {
+//        "( cd " + ramdisk + " && " + cpio + " -i 2>/dev/null < " + gz_file + " )",
+//        //"rm -f " + gz_file,
+//        "mv -f " + configs + fs + "*img-kernel " + extracted,
+//        "echo 'true' > " + configs + fs + "lzma"
+//      };
+//      Shell.exec1(cmds);
+//    } else {
+//      String[] cmds = {
+//        "gunzip -c " + inputGZ + " | ( cd " + ramdisk + "; " + cpio + " -i 2>/dev/null )",
+//        //"rm -f " + inputGZ,
+//        "mv -f " + configs + fs + "*img-kernel " + extracted
+//      };
+//      Shell.exec1(cmds);
+//    }
+    String[] cmds = {"mv -f " + configs + fs + "*img-kernel " + extracted,
+            "mv -f " + configs + fs + ramDisks + " " + extracted};
+    Shell.exec1(cmds);
     return console;
   }
 
@@ -80,44 +99,51 @@ public class UnpackRepackUtil {
 
   public static String startRepack() {
     String console = "Failed to create new image!";
-    String zImage = getFile(extracted, "zImage");
-    File ramdisk_dir = new File(ramdisk);
-    File lzma_fl = new File(configs + fs + "lzma");
-    String compress;
-    if (zImage.contains("zImage") && ramdisk_dir.exists()) {
-      if (lzma_fl.exists()) {
-        compress = "lzma";
-      } else {
-        compress = "gzip";
-      }
-      Shell.exec1("find " + ramdisk + fs + " 2>/dev/null | cpio -o -H newc 2>/dev/null | " +
-        compress + " -f > " + extracted + fs + "ramdisk.gz");
-    }
+    String zImage = getFile(extracted, "img-kernel");
+//    File ramdisk_dir = new File(UnpackRepackUtil.ramdisk);
+//    File lzma_fl = new File(configs + fs + "lzma");
+//    String compress;
+//    if (zImage.contains("img-kernel") && ramdisk_dir.exists()) {
+//      if (lzma_fl.exists()) {
+//        compress = "lzma";
+//      } else {
+//        compress = "gzip";
+//      }
+//      Shell.exec1("find " + UnpackRepackUtil.ramdisk + fs + " 2>/dev/null | " + cpio + " -o -H newc 2>/dev/null | " +
+//        compress + " -f > " + extracted + fs + "ramdisk.gz");
+//    }
 
-    String ramdisk_archive = getFile(extracted, ".gz");
-    String second = getFile(configs, "-secondz");
+    String ramdisk = getFile(extracted, "img-ramdisk");
+    String vramdisk = getFile(configs, "img-vendor_ramdisk");
+    String second = getFile(configs, "-second");
     String dt = getFile(configs, "-dt");
     String dtb = getFile(configs, "-dtb");
-    String dtbo = getFile(configs, "-recoverydtbo");
-    String recovery_acpio = getFile(configs, "-recoveryacpio");
-    String header_version = getFileContent(configs + fs + getFile(configs, "-headerversion"), "-headerversion");
+    String dtbo = getFile(configs, "-recovery_dtbo");
+    String recovery_acpio = getFile(configs, "-recovery_acpio");
+    String header_version = getFileContent(configs + fs + getFile(configs, "-header_version"), "-header_version");
     String cmdline = getFileContent(configs + fs + getFile(configs, "-cmdline"), "-cmdline");
+    String vendor_cmdline = getFileContent(configs + fs + getFile(configs, "-vendor_cmdline"), "-vendor_cmdline");
     String base = getFileContent(configs + fs + getFile(configs, "-base"), "-base");
     String pagesize = getFileContent(configs + fs + getFile(configs, "-pagesize"), "-pagesize");
-    String ramdiskoff = getFileContent(configs + fs + getFile(configs, "-ramdiskoff"), "-ramdiskoff");
-    String tagsoff = getFileContent(configs + fs + getFile(configs, "-tagsoff"), "-tagsoff");
-    String dtboff = getFileContent(configs + fs + getFile(configs, "-dtboff"), "-dtboff");
+    String ramdiskoff = getFileContent(configs + fs + getFile(configs, "-ramdisk_offset"), "-ramdisk_offset");
+    String tagsoff = getFileContent(configs + fs + getFile(configs, "-tags_offset"), "-tags_offset");
+    String dtboff = getFileContent(configs + fs + getFile(configs, "-dtb_offset"), "-dtb_offset");
     String board = getFileContent(configs + fs + getFile(configs, "-board"), "-board");
-    String hash = getFileContent(configs + fs + getFile(configs, "-hash"), "-hash");
-    String secondoff = getFileContent(configs + fs + getFile(configs, "-secondoff"), "-secondoff");
-    String kerneloff = getFileContent(configs + fs + getFile(configs, "-kerneloff"), "-kerneloff");
-    String osversion = getFileContent(configs + fs + getFile(configs, "-osversion"), "-osversion");
-    String oslevel = getFileContent(configs + fs + getFile(configs, "-oslevel"), "-oslevel");
+    String hash = getFileContent(configs + fs + getFile(configs, "-hashtype"), "-hashtype");
+    String secondoff = getFileContent(configs + fs + getFile(configs, "-second_offset"), "-second_offset");
+    String kerneloff = getFileContent(configs + fs + getFile(configs, "-kernel_offset"), "-kernel_offset");
+    String osversion = getFileContent(configs + fs + getFile(configs, "-os_version"), "-os_version");
+    String oslevel = getFileContent(configs + fs + getFile(configs, "-os_patch_level"), "-os_patch_level");
+    String id = getFileContent(configs + fs + getFile(configs, "-id"), "-id");
 
     ArrayList<String> params = new ArrayList<>();
-    if (zImage.contains("zImage") && ramdisk_archive.contains(".gz")) {
+    if (zImage.contains("img-kernel") && ramdisk.contains("img-ramdisk") || vramdisk.contains("img-vendor_ramdisk")) {
       params.add("--kernel " + extracted + fs + zImage);
-      params.add(" --ramdisk " + extracted + fs + ramdisk_archive);
+      if (vramdisk.contains("img-vendor_ramdisk")) {
+        params.add(" --vendor_ramdisk " + extracted + fs + ramdisk);
+      } else {
+        params.add(" --ramdisk " + extracted + fs + ramdisk);
+      }
       if (second.contains("-second")) {
         params.add(" --second " + configs + fs + second);
       }
@@ -127,10 +153,10 @@ public class UnpackRepackUtil {
       if (dtb.contains("-dtb")) {
         params.add(" --dtb " + configs + fs + dtb);
       }
-      if (dtbo.contains("-recoverydtbo")) {
+      if (dtbo.contains("-recovery_dtbo")) {
         params.add(" --recovery_dtbo " + configs + fs + dtbo);
       }
-      if (recovery_acpio.contains("-recoveryacpio")) {
+      if (recovery_acpio.contains("-recovery_acpio")) {
         params.add(" --recovery_acpio " + configs + fs + recovery_acpio);
       }
       if (header_version.length() > 0) {
@@ -138,6 +164,9 @@ public class UnpackRepackUtil {
       }
       if (cmdline.length() > 0) {
         params.add(" --cmdline " + '"' + cmdline + '"');
+      }
+      if (vendor_cmdline.length() > 0) {
+        params.add(" --vendor_cmdline " + '"' + vendor_cmdline + '"');
       }
       if (base.length() > 0) {
         params.add(" --base " + '"' + base + '"');
@@ -158,7 +187,7 @@ public class UnpackRepackUtil {
         params.add(" --board " + '"' + board + '"');
       }
       if (hash.length() > 0) {
-        params.add(" --hash " + '"' + hash + '"');
+        params.add(" --hashtype " + '"' + hash + '"');
       }
       if (secondoff.length() > 0) {
         params.add(" --second_offset " + '"' + secondoff + '"');
@@ -172,13 +201,14 @@ public class UnpackRepackUtil {
       if (oslevel.length() > 0) {
         params.add(" --os_patch_level " + '"' + oslevel + '"');
       }
+      if (id.length() > 0) {
+        params.add(" --id " + '"' + id + '"');
+      }
 
       createOutputDir();
-      if (!params.isEmpty()) {
-        Shell.exec1(getDir() + fs + "tools" + fs + "mkbootimg " + buildArray(params) + " -o " + output + fs + "new-image.img");
-      }
+      Shell.exec1(getDir() + fs + "tools" + fs + "mkbootimg " + buildArray(params) + " -o " + output + fs + "new-image.img");
       File outImage = new File(output + fs + "new-image.img");
-      if (outImage.length() >= 1048576) {
+      if (outImage.length() >= 2000000) {
         console = "Your image was created in:" + System.lineSeparator() + output + fs + "new-image.img";
       }
       params.clear();
@@ -203,9 +233,9 @@ public class UnpackRepackUtil {
   }
 
   // remove newlines from params array in startRepack()
-  private static String buildArray(ArrayList array) {
+  private static String buildArray(ArrayList<String> array) {
     StringBuilder builder = new StringBuilder();
-    for (Object value : array) {
+    for (String value : array) {
       builder.append(value);
     }
     return builder.toString().replace(System.lineSeparator(), "");
@@ -214,40 +244,23 @@ public class UnpackRepackUtil {
   private static void manageDIR() {
     File extracted_dir = new File(extracted);
     File configs_dir = new File(configs);
-    File ramdisk_dir = new File(ramdisk);
+    //File ramdisk_dir = new File(ramdisk);
     if (extracted_dir.exists()) {
       Shell.exec1("rm -rf " + extracted + fs + "*");
-      configs_dir.mkdir();
-      ramdisk_dir.mkdir();
     } else {
       extracted_dir.mkdir();
-      configs_dir.mkdir();
-      ramdisk_dir.mkdir();
     }
+    configs_dir.mkdir();
+    //ramdisk_dir.mkdir();
   }
 
-  private static String arrayToString(String[] strArray) {
-    StringBuilder stringBuilder = new StringBuilder();
-    for (String s : strArray) {
-      stringBuilder.append(s);
-    }
-    return stringBuilder.toString();
-  }
-
-    /*private static void decompressGzip(File input, File output) {
-        try (GZIPInputStream in = new GZIPInputStream(new FileInputStream(input))) {
-            try (FileOutputStream out = new FileOutputStream(output)) {
-                byte[] buffer = new byte[1024];
-                int len;
-                while ((len = in.read(buffer)) != -1) {
-                    out.write(buffer, 0, len);
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("GameTheory - Gzip file doesn't exist!!!");
-            e.printStackTrace();
-        }
-    }*/
+//  private static String arrayToString(String[] strArray) {
+//    StringBuilder stringBuilder = new StringBuilder();
+//    for (String s : strArray) {
+//      stringBuilder.append(s);
+//    }
+//    return stringBuilder.toString();
+//  }
 
   // remove square brackets of Arrays.toString()
   private static String getFile(String dir, String pattern) {
@@ -350,19 +363,6 @@ public class UnpackRepackUtil {
     return path;
   }
 
-    /*private static int javaVersion() {
-        String version = System.getProperty("java.version");
-        if (version.startsWith("1.")) {
-            version = version.substring(2, 3);
-        } else {
-            int dot = version.indexOf(".");
-            if (dot != -1) {
-                version = version.substring(0, dot);
-            }
-        }
-        return Integer.parseInt(version);
-    }*/
-
   public static void launcherShortcut(String param) {
     String icon = getDir() + fs + "tools" + fs + "icon.png";
     String appName = new File(UnpackRepackUtil.class.getProtectionDomain()
@@ -385,7 +385,7 @@ public class UnpackRepackUtil {
     } else if (param.contains("remove")) {
       File file = new File(launcher);
       if (file.exists()) {
-        String[] rml = {"rm -f " + launcher, "gtk-update-icon-cache /usr/share/icons/*"};
+        String[] rml = {"rm -f " + launcher, "gtk-update-icon-cache /usr/share/icons/hicolor"};
         Shell.exec1(rml);
       }
     }

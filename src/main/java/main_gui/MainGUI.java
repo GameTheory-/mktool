@@ -23,7 +23,7 @@ import static java.nio.file.StandardWatchEventKinds.*;
 
 @SuppressWarnings("Convert2Lambda")
 public class MainGUI {
-  private final String appVersion = "mktool v5.2";
+  private final String appVersion = "mktool v5.3";
   private final String fs = File.separator;
   private final String input = UnpackRepackUtil.getDir() + fs + "input";
   private final String aboot = input + fs + "aboot";
@@ -44,7 +44,9 @@ public class MainGUI {
   private JButton unpackImageButton;
   private JButton unpackLokButton;
   private JButton lokiPathButton;
-  private JMenuItem menuItem1, menuItem2, menuItem3;
+  private final JMenuItem menuItem1 = new JMenuItem("Add Launcher Shortcut");
+  private final JMenuItem menuItem2 = new JMenuItem("Remove Launcher Shortcut");
+  private final JMenuItem menuItem3 = new JMenuItem("Check for Updates");
   private final JProgressBar progressBar = new JProgressBar();
   private final JDialog dialog = new JDialog();
 
@@ -354,9 +356,6 @@ public class MainGUI {
         menuBar.setMargin(new Insets(2, 3, 5, 0));
         JMenu menu = new JMenu("File");
         menu.setDisplayedMnemonicIndex(0);
-        menuItem1 = new JMenuItem("Add Launcher Shortcut");
-        menuItem2 = new JMenuItem("Remove Launcher Shortcut");
-        menuItem3 = new JMenuItem("Check for Updates");
         menu.add(menuItem1);
         menu.add(menuItem2);
         menu.add(menuItem3);

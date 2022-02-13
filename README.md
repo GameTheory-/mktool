@@ -1,4 +1,4 @@
-# mktool v5.2
+# mktool v5.3
 
 ![image](tools/menu.png)
 
@@ -17,6 +17,13 @@ In a terminal run the following command:
 
 ### Latest download
 <https://github.com/GameTheory-/mktool/releases>
+
+### Building mktool
+If you would like to build mktool yourself follow these steps.
+1. Open mktool in Intellij Idea.
+2. Setup the project to your liking.
+3. Click on Build > Build Artifacts > main:jar > Build
+4. Your jar archive will be in the "out" directory.
 
 ### Resources
 - [Apache Commons IO Library](https://mvnrepository.com/artifact/commons-io/commons-io)

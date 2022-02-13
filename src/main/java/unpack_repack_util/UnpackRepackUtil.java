@@ -336,14 +336,16 @@ public class UnpackRepackUtil {
     String which_java = Shell.exec0("echo -n $(command -v java)");
     if (param.contains("create")) {
       String[] cl = {
-        "echo '[Desktop Entry]' > " + launcher,
-        "echo 'Type=Application' >> " + launcher,
-        "echo 'Name=mktool' >> " + launcher,
-        "echo 'Comment=Boot & Recovery image tool' >> " + launcher,
-        "echo 'Exec=" + which_java + " -jar \"" + getDir() + fs + appName + "\"' >> " + launcher,
-        "echo 'Icon=" + icon + "' >> " + launcher,
-        "echo 'Categories=Development;' >> " + launcher,
-        "echo 'Terminal=false' >> " + launcher
+              "echo '[Desktop Entry]' > " + launcher,
+              "echo 'Type=Application' >> " + launcher,
+              "echo 'Name=mktool' >> " + launcher,
+              "echo 'Comment=Android Boot & Recovery Image Tool' >> " + launcher,
+              "echo 'Exec=" + "\"" + which_java + "\"" + " -jar \"" + getDir() + fs + appName + "\"" + " %f' >> " + launcher,
+              "echo 'Icon=" + icon + "' >> " + launcher,
+              "echo 'Categories=Development;' >> " + launcher,
+              "echo 'Terminal=false' >> " + launcher,
+              "echo 'StartupWMClass=Main' >> " + launcher,
+              "echo 'StartupNotify=true' >> " + launcher
       };
       Shell.exec1(cl);
     } else if (param.contains("remove")) {

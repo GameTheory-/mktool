@@ -19,7 +19,6 @@
         <properties>
           <focusable value="false"/>
           <requestFocusEnabled value="false"/>
-          <toolTipText resource-bundle="main_gui/MainGUI" key="click.on.your.img.before.clicking.the.button.below"/>
         </properties>
         <border type="none"/>
         <children>
@@ -53,9 +52,7 @@
                     <children>
                       <component id="fc095" class="javax.swing.JList" binding="infoList">
                         <constraints/>
-                        <properties>
-                          <toolTipText resource-bundle="main_gui/MainGUI" key="click.on.your.img.before.clicking.the.button.below"/>
-                        </properties>
+                        <properties/>
                       </component>
                     </children>
                   </scrollpane>
@@ -133,9 +130,7 @@
                     <children>
                       <component id="a73c8" class="javax.swing.JList" binding="imgUnpackList">
                         <constraints/>
-                        <properties>
-                          <toolTipText resource-bundle="main_gui/MainGUI" key="click.on.your.img.before.clicking.the.button.below"/>
-                        </properties>
+                        <properties/>
                       </component>
                     </children>
                   </scrollpane>

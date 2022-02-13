@@ -23,8 +23,7 @@ import static java.nio.file.StandardWatchEventKinds.*;
 
 @SuppressWarnings("Convert2Lambda")
 public class MainGUI {
-  @SuppressWarnings("FieldCanBeLocal")
-  private final String appVersion = "mktool v5.1";
+  private final String appVersion = "mktool v5.2";
   private final String fs = File.separator;
   private final String input = UnpackRepackUtil.getDir() + fs + "input";
   private final String aboot = input + fs + "aboot";
@@ -190,8 +189,8 @@ public class MainGUI {
         UnpackRepackUtil.launcherShortcut("create");
         String launcher = System.getProperty("user.home") +
           "/.local/share/applications/mktool.desktop";
-        File fl = new File(launcher);
-        if (fl.exists()) {
+        Path path = Paths.get(launcher);
+        if (Files.exists(path)) {
           JOptionPane.showMessageDialog(jPanel, "Launcher shortcut created!" +
             System.lineSeparator() + "Check your apps menu for the shortcut.");
         } else {
@@ -205,12 +204,12 @@ public class MainGUI {
         UnpackRepackUtil.launcherShortcut("remove");
         String launcher = System.getProperty("user.home") +
           "/.local/share/applications/mktool.desktop";
-        File fl = new File(launcher);
-        if (!fl.exists()) {
+        Path path = Paths.get(launcher);
+        if (!Files.exists(path)) {
           JOptionPane.showMessageDialog(jPanel, "Launcher shortcut removed!");
         } else {
           JOptionPane.showMessageDialog(jPanel, "Could not remove launcher!" +
-            System.lineSeparator() + "Please remove manually.");
+            System.lineSeparator() + "Please remove manually " + launcher);
         }
       }
     });
@@ -365,7 +364,7 @@ public class MainGUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setJMenuBar(menuBar);
         frame.setIconImages(icons);
-        frame.setTitle("mktool");
+        frame.setTitle(appVersion);
         frame.add(jPanel);
         frame.pack();
         frame.setLocationByPlatform(true);

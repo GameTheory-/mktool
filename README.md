@@ -1,4 +1,4 @@
-# mktool v5.1
+# mktool v5.2
 
 ![image](tools/menu.png)
 
@@ -10,7 +10,7 @@ recovery, or loki images and also for loki patching.
 
 ### Usage
 In a terminal run the following command:
-`java -jar mktool.jar`
+`./run.sh`
 
 ### Project page
 <https://techstop.github.io/mktool/>

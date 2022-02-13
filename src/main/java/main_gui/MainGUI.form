@@ -19,13 +19,14 @@
         <properties>
           <focusable value="false"/>
           <requestFocusEnabled value="false"/>
+          <toolTipText resource-bundle="main_gui/MainGUI" key="click.on.your.img.before.clicking.the.button.below"/>
         </properties>
         <border type="none"/>
         <children>
           <grid id="5a912" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <tabbedpane title="Image Info"/>
+              <tabbedpane title-resource-bundle="main_gui/MainGUI" title-key="image.info"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -52,7 +53,9 @@
                     <children>
                       <component id="fc095" class="javax.swing.JList" binding="infoList">
                         <constraints/>
-                        <properties/>
+                        <properties>
+                          <toolTipText resource-bundle="main_gui/MainGUI" key="click.on.your.img.before.clicking.the.button.below"/>
+                        </properties>
                       </component>
                     </children>
                   </scrollpane>
@@ -67,6 +70,7 @@
                         <constraints/>
                         <properties>
                           <editable value="false"/>
+                          <toolTipText value=""/>
                         </properties>
                       </component>
                     </children>
@@ -87,7 +91,7 @@
                     </constraints>
                     <properties>
                       <focusPainted value="false"/>
-                      <text value="Get Image Info"/>
+                      <text resource-bundle="main_gui/MainGUI" key="button.get.image.info"/>
                     </properties>
                   </component>
                   <hspacer id="ab38d">
@@ -102,7 +106,7 @@
           <grid id="e5ecb" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <tabbedpane title="Unpack .img"/>
+              <tabbedpane title-resource-bundle="main_gui/MainGUI" title-key="unpack.img"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -129,7 +133,9 @@
                     <children>
                       <component id="a73c8" class="javax.swing.JList" binding="imgUnpackList">
                         <constraints/>
-                        <properties/>
+                        <properties>
+                          <toolTipText resource-bundle="main_gui/MainGUI" key="click.on.your.img.before.clicking.the.button.below"/>
+                        </properties>
                       </component>
                     </children>
                   </scrollpane>
@@ -164,7 +170,7 @@
                     </constraints>
                     <properties>
                       <focusPainted value="false"/>
-                      <text value="Unpack Image"/>
+                      <text resource-bundle="main_gui/MainGUI" key="button.unpack.image"/>
                     </properties>
                   </component>
                   <hspacer id="a9e34">
@@ -179,7 +185,7 @@
           <grid id="a1ef6" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <tabbedpane title="Repack Image"/>
+              <tabbedpane title-resource-bundle="main_gui/MainGUI" title-key="repack.image"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -213,7 +219,7 @@
                     </constraints>
                     <properties>
                       <focusPainted value="false"/>
-                      <text value="Repack Image"/>
+                      <text resource-bundle="main_gui/MainGUI" key="button.repack.image"/>
                     </properties>
                   </component>
                   <hspacer id="a7637">
@@ -228,7 +234,7 @@
           <grid id="b23b1" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <tabbedpane title="Unpack .lok"/>
+              <tabbedpane title-resource-bundle="main_gui/MainGUI" title-key="unpack.lok"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -290,7 +296,7 @@
                     </constraints>
                     <properties>
                       <focusPainted value="false"/>
-                      <text value="Unpack Lok"/>
+                      <text resource-bundle="main_gui/MainGUI" key="button.unpack.lok"/>
                     </properties>
                   </component>
                   <hspacer id="4538e">
@@ -305,7 +311,7 @@
           <grid id="e1f05" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <tabbedpane title="Loki Patch"/>
+              <tabbedpane title-resource-bundle="main_gui/MainGUI" title-key="loki.patch"/>
             </constraints>
             <properties/>
             <border type="none"/>
@@ -370,7 +376,7 @@
                     </constraints>
                     <properties>
                       <focusPainted value="false"/>
-                      <text value="Loki Patch Image"/>
+                      <text resource-bundle="main_gui/MainGUI" key="button.loki.patch.image"/>
                     </properties>
                   </component>
                   <hspacer id="2ac3f">

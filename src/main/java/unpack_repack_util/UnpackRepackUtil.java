@@ -8,29 +8,34 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 
-@SuppressWarnings({"Convert2Lambda", "ResultOfMethodCallIgnored"})
+@SuppressWarnings("Convert2Lambda")
 public class UnpackRepackUtil {
   private static final String fs = File.separator;
   private static final String tool = getDir() + fs + "tools" + fs + "unpackbootimg -i ";
-  //private static final String cpio = getDir() + fs + "tools" + fs + "cpio";
   private static final String input = getDir() + fs + "input";
   private static final String aboot = input + fs + "aboot";
   private static final String output = getDir() + fs + "output";
   private static final String extracted = getDir() + fs + "extracted";
   private static final String configs = extracted + fs + "configs";
-  //private static final String ramdisk = extracted + fs + "ramdisk";
   private static final String img_info = getDir() + fs + "img_info";
 
   public static String imgInfo(String listItem) {
-    File img_info_dir = new File(img_info);
-    if (img_info_dir.exists()) {
+    Path path = Paths.get(img_info);
+    if (Files.exists(path)) {
       Shell.exec1("rm -rf " + img_info + fs + "*");
     } else {
-      img_info_dir.mkdir();
+      try {
+        Files.createDirectory(path);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
     }
     String console = Shell.exec0(tool + input + fs + listItem + " -o " + img_info);
     Shell.exec1("rm -rf " + img_info);
@@ -48,37 +53,6 @@ public class UnpackRepackUtil {
     } else {
       ramDisks = ramdisk;
     }
-//    String ramdisks = configs + fs + arrayToString(getFiles(configs, ".img-ramdisk", "?"));
-//    File ramDisks = new File(ramdisks);
-//    String inputGZ;
-//    if (ramDisks.exists()) {
-//      inputGZ = configs + fs + arrayToString(getFiles(configs, ".img-ramdisk", "?"));
-//    } else {
-//      inputGZ = configs + fs + arrayToString(getFiles(configs, ".img-vendor_ramdisk", "?"));
-//    }
-//    if (Shell.exec0("file " + inputGZ).toLowerCase().contains("lzma")) {
-//      String gz_file = inputGZ;
-//      Shell.exec1("mv -f " + gz_file + " " + gz_file + ".xz");
-//      gz_file = gz_file + "*.xz";
-//      Shell.exec1("lzma -d " + gz_file);
-//      gz_file = configs + fs + arrayToString(getFiles(configs, ".gz", "?"));
-//      Shell.exec1("mv -f " + gz_file + " " + gz_file + ".cpio");
-//      gz_file = gz_file + ".cpio";
-//      String[] cmds = {
-//        "( cd " + ramdisk + " && " + cpio + " -i 2>/dev/null < " + gz_file + " )",
-//        //"rm -f " + gz_file,
-//        "mv -f " + configs + fs + "*img-kernel " + extracted,
-//        "echo 'true' > " + configs + fs + "lzma"
-//      };
-//      Shell.exec1(cmds);
-//    } else {
-//      String[] cmds = {
-//        "gunzip -c " + inputGZ + " | ( cd " + ramdisk + "; " + cpio + " -i 2>/dev/null )",
-//        //"rm -f " + inputGZ,
-//        "mv -f " + configs + fs + "*img-kernel " + extracted
-//      };
-//      Shell.exec1(cmds);
-//    }
     String[] cmds = {"mv -f " + configs + fs + "*img-kernel " + extracted,
             "mv -f " + configs + fs + ramDisks + " " + extracted};
     Shell.exec1(cmds);
@@ -100,18 +74,6 @@ public class UnpackRepackUtil {
   public static String startRepack() {
     String console = "Failed to create new image!";
     String zImage = getFile(extracted, "img-kernel");
-//    File ramdisk_dir = new File(UnpackRepackUtil.ramdisk);
-//    File lzma_fl = new File(configs + fs + "lzma");
-//    String compress;
-//    if (zImage.contains("img-kernel") && ramdisk_dir.exists()) {
-//      if (lzma_fl.exists()) {
-//        compress = "lzma";
-//      } else {
-//        compress = "gzip";
-//      }
-//      Shell.exec1("find " + UnpackRepackUtil.ramdisk + fs + " 2>/dev/null | " + cpio + " -o -H newc 2>/dev/null | " +
-//        compress + " -f > " + extracted + fs + "ramdisk.gz");
-//    }
 
     String ramdisk = getFile(extracted, "img-ramdisk");
     String vramdisk = getFile(configs, "img-vendor_ramdisk");
@@ -224,11 +186,15 @@ public class UnpackRepackUtil {
   }
 
   private static void createOutputDir() {
-    File output_dir = new File(output);
-    if (output_dir.exists()) {
+    Path path = Paths.get(output);
+    if (Files.exists(path)) {
       Shell.exec1("rm -rf " + output + fs + "*");
     } else {
-      output_dir.mkdir();
+      try {
+        Files.createDirectory(path);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
     }
   }
 
@@ -242,25 +208,23 @@ public class UnpackRepackUtil {
   }
 
   private static void manageDIR() {
-    File extracted_dir = new File(extracted);
-    File configs_dir = new File(configs);
-    //File ramdisk_dir = new File(ramdisk);
-    if (extracted_dir.exists()) {
+    Path confs = Paths.get(configs);
+    Path extract = Paths.get(extracted);
+    if (Files.exists(extract)) {
       Shell.exec1("rm -rf " + extracted + fs + "*");
     } else {
-      extracted_dir.mkdir();
+      try {
+        Files.createDirectory(extract);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
     }
-    configs_dir.mkdir();
-    //ramdisk_dir.mkdir();
+    try {
+      Files.createDirectory(confs);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
-
-//  private static String arrayToString(String[] strArray) {
-//    StringBuilder stringBuilder = new StringBuilder();
-//    for (String s : strArray) {
-//      stringBuilder.append(s);
-//    }
-//    return stringBuilder.toString();
-//  }
 
   // remove square brackets of Arrays.toString()
   private static String getFile(String dir, String pattern) {
@@ -369,7 +333,7 @@ public class UnpackRepackUtil {
       .getCodeSource().getLocation().getPath()).getName();
     String launcher = System.getProperty("user.home") +
       "/.local/share/applications/mktool.desktop";
-    String which_java = Shell.exec0("echo -n $(which java)");
+    String which_java = Shell.exec0("echo -n $(command -v java)");
     if (param.contains("create")) {
       String[] cl = {
         "echo '[Desktop Entry]' > " + launcher,

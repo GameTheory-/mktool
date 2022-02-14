@@ -67,7 +67,6 @@
                         <constraints/>
                         <properties>
                           <editable value="false"/>
-                          <toolTipText value=""/>
                         </properties>
                       </component>
                     </children>

@@ -23,7 +23,7 @@ import static java.nio.file.StandardWatchEventKinds.*;
 
 @SuppressWarnings("Convert2Lambda")
 public class MainGUI {
-  private final String appVersion = "mktool v5.3";
+  private final String appVersion = "mktool v5.4";
   private final String fs = File.separator;
   private final String input = UnpackRepackUtil.getDir() + fs + "input";
   private final String aboot = input + fs + "aboot";

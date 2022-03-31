@@ -7,8 +7,6 @@
 BASE=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 # Tools directory
 TOOLS_DIR=$BASE/tools
-# Path to java in host system
-JDK=$(command -v java)
 
 # Check if tools are executable. If not, make executable.
 if [ ! -x "$TOOLS_DIR"/mkbootimg ]; then
@@ -21,5 +19,13 @@ if [ ! -x "$TOOLS_DIR"/loki ]; then
 	chmod +x "$TOOLS_DIR"/loki
 fi
 
-# Run the java program
-"$JDK" -jar mktool.jar
+if command -v java > /dev/null; then
+  # Path to java in host system
+  JDK=$(command -v java)
+  # Run the java program
+  "$JDK" -jar mktool.jar
+else
+  echo "Could not find java installation!"
+  echo "Please make sure you have java 8 or higher installed on your system."
+  echo "You can get OpenJDK java from https://aws.amazon.com/corretto/"
+fi

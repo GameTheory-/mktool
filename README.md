@@ -13,6 +13,9 @@ recovery, or loki images and also for loki patching.
 In a terminal run the following command:
 `./run.sh`
 
+Input images must be in `./input/`, unpacking/repacking in
+`./extracted/`, and output images will go into `./output/`.
+
 ### Project page
 
 <https://techstop.github.io/mktool/>

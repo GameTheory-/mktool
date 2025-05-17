@@ -6,7 +6,7 @@
 # Location of this script & mktool.jar
 BASE=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 # Tools directory
-TOOLS_DIR=$BASE/tools
+TOOLS_DIR="$BASE"/tools
 
 # Check if tools are executable. If not, make executable.
 if [ ! -x "$TOOLS_DIR"/mkbootimg ]; then
@@ -23,7 +23,7 @@ if command -v java > /dev/null; then
   # Path to java in host system
   JDK=$(command -v java)
   # Run the java program
-  "$JDK" -jar mktool.jar
+  "$JDK" -jar "$BASE"/mktool.jar
 else
   echo "Could not find java installation!"
   echo "Please make sure you have java 8 or higher installed on your system."
